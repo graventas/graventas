@@ -80,20 +80,26 @@ def find_avatar():
 
 
 def ascii_rows_from_image(path):
-    from PIL import Image
+    from PIL import Image, ImageEnhance
     import numpy as np
-
+    
     img = Image.open(path).convert("RGBA")
     w, h = img.size
     side = min(w, h)
     left = (w - side) // 2
     top = (h - side) // 2
     img = img.crop((left, top, left + side, top + side))
-
+    
+    # Perkuat kontras dan ketajaman gambar agar garis tepi anime (seperti rambut & mata Reze) lebih tegas
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(1.8)
+    sharpness = ImageEnhance.Sharpness(img)
+    img = sharpness.enhance(2.0)
+    
     arr = np.array(img).astype(np.float32)
     rgb = arr[..., :3]
     alpha = arr[..., 3]
-
+    
     has_real_alpha = alpha.min() < 250
     if not has_real_alpha:
         m = max(2, int(side * 0.05))
@@ -105,21 +111,21 @@ def ascii_rows_from_image(path):
         ], axis=0)
         bg_color = np.median(corners, axis=0)
         dist = np.sqrt(((rgb - bg_color) ** 2).sum(axis=-1))
-        alpha = np.clip((dist - 42.0) * 6.0, 0, 255)
-
+        alpha = np.clip((dist - 35.0) * 6.0, 0, 255)
+        
     rows = max(1, round(ART_COLS * (CELL_W / CELL_H)))
-
     mask_img = Image.fromarray(alpha.astype(np.uint8), mode="L").resize((ART_COLS, rows), Image.LANCZOS)
     gray_img = Image.fromarray(rgb.astype(np.uint8)).convert("L").resize((ART_COLS, rows), Image.LANCZOS)
+    
     mask_px = mask_img.load()
     gray_px = gray_img.load()
-
+    
     out_rows = []
     for y in range(rows):
         line = []
         for x in range(ART_COLS):
             fg = mask_px[x, y] / 255.0
-            if fg < 0.22:
+            if fg < 0.15:
                 line.append(" ")
                 continue
             lum = gray_px[x, y] / 255.0

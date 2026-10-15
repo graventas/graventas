@@ -32,7 +32,7 @@ OUT_PATH = os.environ.get("OUT_PATH", "assets/profile.svg")
 PROFILE_FIELDS = [
     ("Role", "Information Technology Student"),
     ("Focus", "cybersecurity & backend"),
-    ("Stack.Language", "python, go"),
+    ("Stack.Language", "python, golang"),
     ("Contact.GitHub", f"github.com/{LOGIN}"),
 ]
 

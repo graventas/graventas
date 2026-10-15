@@ -30,17 +30,10 @@ OUT_PATH = os.environ.get("OUT_PATH", "assets/profile.svg")
 # Field list shown on the right, neofetch-style.
 # ---------------------------------------------------------------------------
 PROFILE_FIELDS = [
-    ("Role", "informatics student"),
-    ("Focus", "junior web developer & cybersecurity enthusiast"),
-    ("Stack.Frontend", "html, css, javascript"),
-    ("Stack.Backend", "php, laravel, codeigniter"),
-    ("Stack.Scripting", "python"),
-    ("Stack.Database", "mysql"),
-    ("Stack.Security", "burp suite"),
-    ("Environment", "linux, git, github, vscode"),
-    ("Interests", "cybersecurity"),
+    ("Role", "Information Technology Student"),
+    ("Focus", "cybersecurity & backend"),
+    ("Stack.Language", "python, go"),
     ("Contact.GitHub", f"github.com/{LOGIN}"),
-    ("Contact.Telegram", "t.me/pangeran1337"),
 ]
 
 # ---- Kali color scheme -----------------------------------------------------
